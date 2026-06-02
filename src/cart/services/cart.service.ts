@@ -22,7 +22,7 @@ export class CartService {
     return {
       ...cart,
       items: items.map((row) => ({
-        product: { id: row.product_id, title: '', description: '', price: 0 },
+        product: { id: row.product_id, title: '', description: '', price: Number(row.price) },
         count: row.count,
       })),
     };
@@ -52,8 +52,8 @@ export class CartService {
     if (!existing) {
       if (payload.count > 0) {
         await this.db.query(
-          `INSERT INTO cart_items (cart_id, product_id, count) VALUES ($1, $2, $3)`,
-          [cart.id, payload.product.id, payload.count],
+          `INSERT INTO cart_items (cart_id, product_id, count, price) VALUES ($1, $2, $3, $4)`,
+          [cart.id, payload.product.id, payload.count, payload.product.price],
         );
       }
     } else if (payload.count === 0) {
@@ -63,8 +63,8 @@ export class CartService {
       );
     } else {
       await this.db.query(
-        `UPDATE cart_items SET count = $3 WHERE cart_id = $1 AND product_id = $2`,
-        [cart.id, payload.product.id, payload.count],
+        `UPDATE cart_items SET count = $3, price = $4 WHERE cart_id = $1 AND product_id = $2`,
+        [cart.id, payload.product.id, payload.count, payload.product.price],
       );
     }
 
