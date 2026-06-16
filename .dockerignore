@@ -1,0 +1,26 @@
+# node_modules — largest directory (188MB+), always reinstalled inside the container
+node_modules
+
+# dist — compiled output, recreated by `npm run build` inside the container
+dist
+
+# cdk — AWS CDK infrastructure code, not needed at runtime
+cdk
+
+# .git — version control history, irrelevant inside the container
+.git
+
+# test — test files are not needed in production image
+test
+
+# .elasticbeanstalk — EB CLI config, deployment metadata only
+.elasticbeanstalk
+
+# *.md — documentation files, not needed at runtime
+*.md
+
+# env.example — example env file, real env vars are injected at runtime
+env.example
+
+# get-token.sh — local development utility script
+get-token.sh
